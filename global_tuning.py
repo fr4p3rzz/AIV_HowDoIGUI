@@ -7,3 +7,4 @@ STYLE_FONT_SM_DIM = 10
 
 # Functional variables
 DEFAULT_SEARCH_ENGINE = " -e google"
+TEXT_COLOR = " -c "
