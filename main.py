@@ -10,7 +10,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.engine = tuning.DEFAULT_SEARCH_ENGINE
         self.textColor = ""
+        self.maxAnswers = "1"
         self.setWindowTitle("HowDoI - GUI")
+
 
         Font = QFont('Arial', tuning.STYLE_FONT_DIM, QFont.Bold)
         FontSmall = QFont('Arial', tuning.STYLE_FONT_SM_DIM, QFont.Bold)
@@ -34,6 +36,15 @@ class MainWindow(QMainWindow):
         AskButton.setFont(Font)
         AskButton.clicked.connect(self.GetAnswer)
 
+        MultiAskButton = QPushButton("Multiple search")
+        MultiAskButton.setFont(Font)
+        MultiAskButton.clicked.connect(self.GetMultipleAnswer)
+
+        MaxAnswers = QComboBox(self)
+        MaxAnswers.size()
+        MaxAnswers.addItems("123456789")
+        MaxAnswers.activated[str].connect(self.UpdateMaxAnswers)
+
         JsonButton = QPushButton("Show raw json format")
         JsonButton.setFont(FontSmall)
         JsonButton.clicked.connect(self.JsonAnswer)
@@ -44,20 +55,25 @@ class MainWindow(QMainWindow):
         EngineDropd.addItem("duckduckgo")
         EngineDropd.activated[str].connect(self.UpdateEngine)
 
-        HLayout = QHBoxLayout()
-        HLayout.addWidget(self.QuestionLabel)
-        HLayout.addWidget(self.input)
-        HLayout.addWidget(self.colorCheckBox)
-        HLayout.addWidget(EngineDropd)
+        MainInputLayout = QHBoxLayout()
+        MainInputLayout.addWidget(self.QuestionLabel)
+        MainInputLayout.addWidget(self.input)
+        MainInputLayout.addWidget(self.colorCheckBox)
+        MainInputLayout.addWidget(EngineDropd)
+
+        MultiAnswerLayout = QHBoxLayout()
+        MultiAnswerLayout.addWidget(MultiAskButton)
+        MultiAnswerLayout.addWidget(MaxAnswers)
 
         VLayout = QVBoxLayout()
-        VLayout.addLayout(HLayout)
+        VLayout.addLayout(MainInputLayout)
         VLayout.addWidget(AskButton)
+        VLayout.addLayout(MultiAnswerLayout)
         VLayout.addWidget(JsonButton)
         VLayout.addWidget(self.TextEdit)
 
         Container = QWidget()
-        Container.setMinimumSize(650, 480)
+        Container.setMinimumSize(640, 480)
         Container.setLayout(VLayout)
         self.setCentralWidget(Container)
 
@@ -66,6 +82,11 @@ class MainWindow(QMainWindow):
         if QueryText != "":
             self.TextEdit.setText(howdoi.howdoi(QueryText + self.engine + self.textColor))
 
+    def GetMultipleAnswer(self):
+        QueryText = self.input.text()
+        if QueryText != "":
+            self.TextEdit.setText(howdoi.howdoi(QueryText + self.engine + self.textColor + " -n " + self.maxAnswers))
+
     def JsonAnswer(self):
         QueryText = self.input.text()
         if QueryText != "":
@@ -73,6 +94,9 @@ class MainWindow(QMainWindow):
 
     def UpdateEngine(self, text):
         self.engine = " -e " + text
+    
+    def UpdateMaxAnswers(self, text):
+        self.maxAnswers = text
     
     def TextColor(self):
         if self.colorCheckBox.isChecked():
