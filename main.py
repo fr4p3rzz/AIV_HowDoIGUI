@@ -65,16 +65,16 @@ class MainWindow(QMainWindow):
         MultiAnswerLayout.addWidget(MultiAskButton)
         MultiAnswerLayout.addWidget(MaxAnswers)
 
-        VLayout = QVBoxLayout()
-        VLayout.addLayout(MainInputLayout)
-        VLayout.addWidget(AskButton)
-        VLayout.addLayout(MultiAnswerLayout)
-        VLayout.addWidget(JsonButton)
-        VLayout.addWidget(self.TextEdit)
+        WindowLayout = QVBoxLayout()
+        WindowLayout.addLayout(MainInputLayout)
+        WindowLayout.addWidget(AskButton)
+        WindowLayout.addLayout(MultiAnswerLayout)
+        WindowLayout.addWidget(JsonButton)
+        WindowLayout.addWidget(self.TextEdit)
 
         Container = QWidget()
         Container.setMinimumSize(640, 480)
-        Container.setLayout(VLayout)
+        Container.setLayout(WindowLayout)
         self.setCentralWidget(Container)
 
     def GetAnswer(self):
