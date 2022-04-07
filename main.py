@@ -8,53 +8,64 @@ import global_tuning as tuning
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        # Internal variables for custom searches
         self.engine = tuning.DEFAULT_SEARCH_ENGINE
         self.textColor = ""
         self.maxAnswers = "1"
+
+        # Window setup
         self.setWindowTitle("HowDoI - GUI")
-
-
         Font = QFont('Arial', tuning.STYLE_FONT_DIM, QFont.Bold)
         FontSmall = QFont('Arial', tuning.STYLE_FONT_SM_DIM, QFont.Bold)
         self.setFont(Font)
 
+        # Input field
         self.input = QLineEdit()
         self.input.setFont(Font)
         self.QuestionLabel = QLabel()
         self.QuestionLabel.setFont(Font)
         self.QuestionLabel.setText("How do I:")
 
+        # Output field
         self.TextEdit = QTextEdit()
         self.TextEdit.setFont(Font)
         self.TextEdit.setStyleSheet(f"border: {tuning.STYLE_BORDER}")
         self.TextEdit.setStyleSheet(f"background-color: {tuning.STYLE_BACKGROUND_COLOR}")
 
+        # Checkbox for display colors in output
         self.colorCheckBox = QCheckBox("Text color", self)
         self.colorCheckBox.stateChanged.connect(self.TextColor)
 
-        AskButton = QPushButton("Search")
-        AskButton.setFont(Font)
-        AskButton.clicked.connect(self.GetAnswer)
-
-        MultiAskButton = QPushButton("Multiple search")
-        MultiAskButton.setFont(Font)
-        MultiAskButton.clicked.connect(self.GetMultipleAnswer)
-
-        MaxAnswers = QComboBox(self)
-        MaxAnswers.size()
-        MaxAnswers.addItems("123456789")
-        MaxAnswers.activated[str].connect(self.UpdateMaxAnswers)
-
-        JsonButton = QPushButton("Show raw json format")
-        JsonButton.setFont(FontSmall)
-        JsonButton.clicked.connect(self.JsonAnswer)
-
+        # Dropdown for selecting preferred search engine
         EngineDropd = QComboBox(self)
         EngineDropd.addItem("google")
         EngineDropd.addItem("bing")
         EngineDropd.addItem("duckduckgo")
         EngineDropd.activated[str].connect(self.UpdateEngine)
 
+        # Action button for single answer
+        AskButton = QPushButton("Search")
+        AskButton.setFont(Font)
+        AskButton.clicked.connect(self.GetAnswer)
+
+        # Action button for multi answer
+        MultiAskButton = QPushButton("Multiple search")
+        MultiAskButton.setFont(Font)
+        MultiAskButton.clicked.connect(self.GetMultipleAnswer)
+
+        # Dropdown for updating number of answers desired
+        MaxAnswers = QComboBox(self)
+        MaxAnswers.size()
+        MaxAnswers.addItems("123456789")
+        MaxAnswers.activated[str].connect(self.UpdateMaxAnswers)
+
+        # Action button for json answer
+        JsonButton = QPushButton("Show raw json format")
+        JsonButton.setFont(FontSmall)
+        JsonButton.clicked.connect(self.JsonAnswer)
+
+        # Layout construction
         MainInputLayout = QHBoxLayout()
         MainInputLayout.addWidget(self.QuestionLabel)
         MainInputLayout.addWidget(self.input)
